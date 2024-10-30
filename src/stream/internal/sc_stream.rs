@@ -35,6 +35,7 @@ pub type SCStreamRef = *mut __SCStreamRef;
 
 declare_TCFType! {SCStream, SCStreamRef}
 impl_TCFType!(SCStream, SCStreamRef, SCStreamGetTypeID);
+unsafe impl Send for SCStream {}
 impl SCStream {
     pub fn internal_init_with_filter(
         filter: &SCContentFilter,

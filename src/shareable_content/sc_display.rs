@@ -27,6 +27,7 @@ mod internal {
 
     declare_TCFType! {SCDisplay, SCDisplayRef}
     impl_TCFType!(SCDisplay, SCDisplayRef, SCDisplayGetTypeID);
+    unsafe impl Send for SCDisplay {}
 }
 
 impl fmt::Debug for SCDisplay {

@@ -25,6 +25,7 @@ mod internal {
         SCShareableContentRef,
         SCShareableContentGetTypeID
     );
+    unsafe impl Send for SCShareableContent {}
 }
 pub use internal::SCShareableContent;
 

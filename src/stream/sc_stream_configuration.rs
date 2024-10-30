@@ -35,6 +35,7 @@ mod internal {
 }
 
 use core_foundation::{boolean::CFBoolean, error::CFError};
+use core_media_rs::cm_time::CMTime;
 pub use internal::SCStreamConfiguration;
 use objc::{sel, sel_impl};
 
@@ -102,6 +103,47 @@ impl SCStreamConfiguration {
         set_property(&mut self, sel!(setChannelCount:), channel_count)?;
         Ok(self)
     }
+
+    /// Sets the queue depth of this [`SCStreamConfiguration`].
+    ///
+    /// # Errors
+    ///
+    /// This function will return an error if .
+    pub fn set_queue_depth(mut self, queue_depth: i32) -> Result<Self, CFError> {
+        set_property(&mut self, sel!(setQueueDepth:), queue_depth)?;
+        Ok(self)
+    }
+
+    /// Sets the show cursor of this [`SCStreamConfiguration`].
+    ///
+    /// # Errors
+    ///
+    /// This function will return an error if .
+    pub fn set_shows_cursor(mut self, shows_cursor: bool) -> Result<Self, CFError> {
+        set_property(&mut self, sel!(setShowsCursor:), shows_cursor)?;
+        Ok(self)
+    }
+
+    /// Sets the pixel format of this [`SCStreamConfiguration`].
+    ///
+    /// # Errors
+    ///
+    /// This function will return an error if .
+    pub fn set_pixel_format(mut self, pixel_format: u32) -> Result<Self, CFError> {
+        set_property(&mut self, sel!(setPixelFormat:), pixel_format)?;
+        Ok(self)
+    }
+
+    /// Sets the minimum frame interval of this [`SCStreamConfiguration`].
+    ///
+    /// # Errors
+    ///
+    /// This function will return an error if .
+    pub fn set_minimum_frame_interval(mut self, minimum_frame_interval: CMTime) -> Result<Self, CFError> {
+        set_property(&mut self, sel!(setMinimumFrameInterval:), minimum_frame_interval)?;
+        Ok(self)
+    }
+
     pub fn get_channel_count(&self) -> u8 {
         get_property(self, sel!(channelCount))
     }

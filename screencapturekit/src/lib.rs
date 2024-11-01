@@ -10,3 +10,4 @@ pub mod sc_stream;
 pub mod sc_stream_configuration;
 pub mod sc_types;
 pub mod sc_window;
+pub mod sc_screenshot_manager;

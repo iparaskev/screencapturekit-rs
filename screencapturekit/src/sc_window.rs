@@ -2,7 +2,7 @@ use screencapturekit_sys::{os_types::rc::ShareId, shareable_content::UnsafeSCWin
 
 use crate::sc_running_application::SCRunningApplication;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SCWindow {
     pub(crate) _unsafe_ref: ShareId<UnsafeSCWindow>,
     pub width: u32,

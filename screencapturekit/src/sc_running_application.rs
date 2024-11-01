@@ -1,6 +1,6 @@
 use screencapturekit_sys::{os_types::rc::ShareId, shareable_content::UnsafeSCRunningApplication};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SCRunningApplication {
     pub(crate) _unsafe_ref: ShareId<UnsafeSCRunningApplication>,
     pub process_id: i32,

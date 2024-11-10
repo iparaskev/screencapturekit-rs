@@ -1,7 +1,10 @@
-use std::mem;
+use std::{mem, os::{macos::raw, raw::c_void}};
 
 use objc::{Message, *};
 use objc_foundation::{INSString, INSValue, NSString, NSValue};
+use runtime::{Class, Object};
+
+use crate::os_types::geometry::CGRect;
 #[derive(Debug)]
 #[repr(C)]
 pub struct SCStreamFrameInfo {
@@ -26,6 +29,15 @@ pub enum SCFrameStatus {
     Stopped,
 }
 
+#[derive(Debug)]
+#[repr(C)]
+pub struct SCScreenRect {
+    pub x: f64,
+    pub y: f64,
+    pub width: f64,
+    pub height: f64,
+}
+
 unsafe impl Message for SCStreamFrameInfo {}
 impl SCStreamFrameInfo {
     pub fn status(&self) -> SCFrameStatus {
@@ -36,6 +48,42 @@ impl SCStreamFrameInfo {
                 return SCFrameStatus::Idle;
             }
             mem::transmute((*raw_status).value())
+        }
+    }
+
+    pub fn scale(&self) -> f64 {
+        unsafe {
+            let key = NSString::from_str("SCStreamUpdateFrameContentScale");
+            let raw_scale: *mut NSValue<f64> = msg_send!(self, objectForKey: key);
+            if raw_scale.is_null() {
+                return 1.0;
+            }
+            (*raw_scale).value()
+        }
+    }
+
+    pub fn screen_rect(&self) -> SCScreenRect {
+        unsafe {
+            let key = NSString::from_str("SCStreamUpdateFrameScreenRect");
+            let rect_dict: *mut Object = msg_send!(self, objectForKey: key);
+            let raw_width: *mut NSValue<f64> = msg_send!(rect_dict, objectForKey: NSString::from_str("Width"));
+            let raw_height: *mut NSValue<f64> = msg_send!(rect_dict, objectForKey: NSString::from_str("Height"));
+            let raw_x: *mut NSValue<f64> = msg_send!(rect_dict, objectForKey: NSString::from_str("X"));
+            let raw_y: *mut NSValue<f64> = msg_send!(rect_dict, objectForKey: NSString::from_str("Y"));
+            if raw_width.is_null() || raw_height.is_null() || raw_x.is_null() || raw_y.is_null() {
+                return SCScreenRect {
+                    x: 0.0,
+                    y: 0.0,
+                    width: 0.0,
+                    height: 0.0,
+                };
+            }
+            SCScreenRect {
+                x: (*raw_x).value(),
+                y: (*raw_y).value(),
+                width: (*raw_width).value(),
+                height: (*raw_height).value(),
+            }
         }
     }
 }

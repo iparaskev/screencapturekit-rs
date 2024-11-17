@@ -29,7 +29,7 @@ pub enum SCFrameStatus {
     Stopped,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 #[repr(C)]
 pub struct SCScreenRect {
     pub x: f64,

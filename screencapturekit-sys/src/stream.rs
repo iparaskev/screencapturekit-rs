@@ -82,6 +82,14 @@ impl UnsafeSCStream {
             let _: () = msg_send!(self, addStreamOutput: a type: output_type sampleHandlerQueue: queue error: NSObject::new());
         }
     }
+    pub fn update_configuration(&self, config: Id<UnsafeStreamConfigurationRef>) -> Result<(), String> {
+        unsafe {
+            let (handler, rx) = Self::new_completion_handler();
+            let _: () = msg_send!(self, updateConfiguration: config completionHandler: handler);
+            rx.recv()
+                .expect("Should receive a return from completion handler")
+        }
+    }
 }
 
 impl Drop for UnsafeSCStream {

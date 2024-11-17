@@ -39,6 +39,9 @@ impl SCStream {
     pub fn stop_capture(&self) -> Result<(), String> {
         self._unsafe_ref.stop_capture()
     }
+    pub fn update_configuration(&self, config: SCStreamConfiguration) -> Result<(), String> {
+        self._unsafe_ref.update_configuration(config.into())
+    }
 }
 
 #[cfg(test)]

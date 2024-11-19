@@ -46,7 +46,10 @@ mod internal {
             let _: () = msg_send![class!(SCScreenshotManager), captureSampleBufferWithFilter: filter configuration: config completionHandler: handler];
             let res = rx.recv()
                 .expect("Should receive a return from completion handler");
-            res.unwrap()
+            match res {
+                Ok(data) => data,
+                Err(e) => vec![],
+            }
         }
     }
 }

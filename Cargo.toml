@@ -27,9 +27,9 @@ ci = []
 
 
 [dependencies]
-core-media-rs = { version = "0.3" }
-core-video-rs = { version = "0.3" }
-core-utils-rs = { version = "0.3" }
+core-media-rs = { git = "https://github.com/iparaskev/core-frameworks.git", branch = "renkey_migration"}
+core-video-rs = { git = "https://github.com/iparaskev/core-frameworks.git", branch = "renkey_migration"}
+core-utils-rs = { git = "https://github.com/iparaskev/core-frameworks.git", branch = "renkey_migration"}
 objc = { version = "0.2", features = ["exception"] }
 block2 = "0.5"
 dispatch = "0.2"
